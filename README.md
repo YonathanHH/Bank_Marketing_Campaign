@@ -21,6 +21,7 @@ and interpretability.
 | Problem Type    | Binary Classification                       |
 | Evaluation      | F2-Score (recall-focused)                   |
 
+More insights could be seen here: [Purwadhika full end-to-end project](https://github.com/jcdspurwadhika/JCDSJKTPM-34_Alpha)
 
 ## 💼 Business Problem
 
