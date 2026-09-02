@@ -7,13 +7,14 @@
 
 ## 📌 Overview
 
-This project analyzes the UCI Portuguese Bank Marketing dataset (45,211 records, 17 features) through two complementary lenses: **supervised classification** to predict term deposit subscriptions, and **unsupervised clustering** to segment customers into actionable personas.
+This project analyzes the UCI Portuguese Bank Marketing dataset — the `bank-additional-full` variant, 41,188 records and 20 features including the macroeconomic indicators — through two complementary lenses: **supervised classification** to predict term deposit subscriptions, and **unsupervised clustering** to segment customers into actionable personas.
 
 Two modeling approaches are benchmarked for classification: a **Conventional ML pipeline** (sklearn-based) and an **AutoML approach** using PyCaret, comparing development speed, performance, and interpretability. Customer segmentation is handled using **K-Prototypes**, chosen for its native support of mixed numeric and categorical data.
 
 | Item | Detail |
 |---|---|
-| Dataset | UCI Bank Marketing (Portuguese bank, 2008-2010) |
+| Dataset | UCI Bank Marketing, `bank-additional-full` (Portuguese bank, May 2008 – Nov 2010) |
+| Size | 41,188 contacts × 20 features (40,198 after dropping rows missing `housing`/`loan`) |
 | Target | `y` — Term deposit subscription (yes/no) |
 | Imbalance Ratio | ~88% No / ~12% Yes |
 | Problem Type | Binary Classification + Unsupervised Clustering |
@@ -34,6 +35,25 @@ Beyond prediction, understanding **who** those likely subscribers are enables sm
 - Identify which segments have the highest subscription rate above the 11% baseline
 - Compare AutoML efficiency vs. manual pipeline development
 
+## 🌐 Interactive Website
+
+The full analysis is also published as an interactive site: an EDA explorer, a threshold lab that
+recomputes campaign economics on the real held-out predictions, and **the trained LightGBM model
+running client-side** — no backend, no cold start.
+
+The booster is exported to a 240 KB JSON file and traversed in TypeScript. A parity test asserts
+the browser reproduces scikit-learn's `predict_proba` to within 1e-6, so the number on the page is
+the number the Python pipeline returns.
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Deploy to Vercel with **Root Directory** set to `web`. See [`web/README.md`](web/README.md) for the
+regeneration pipeline and deployment settings.
+
 ## 📂 Repository Structure
 
 ```
@@ -44,8 +64,16 @@ Bank_Marketing_Campaign/
 ├── end_to_end_automl.ipynb         # Standalone AutoML exploration notebook
 ├── clustering_kprototypes.ipynb    # Customer segmentation with K-Prototypes
 ├── app.py                          # Streamlit deployment app
-├── bank_marketing_model.sav        # Saved trained model (joblib)
-└── requirements.txt                # Python dependencies
+├── bank_marketing_model.sav        # Model from the classification notebook (includes duration)
+├── 01_bank_marketing_model.sav     # Deployed model: no duration, plus macro indicators
+├── requirements.txt                # Python dependencies
+├── tools/                          # Exports every figure the website shows
+│   ├── export_model.py             # Booster → JSON, verified against predict_proba
+│   ├── export_insights.py          # EDA aggregates, benchmarks, curves, leakage exhibit
+│   ├── export_segments.py          # K-Prototypes personas and elbow curve
+│   ├── make_fixtures.py            # Reference probabilities for the parity test
+│   └── check_parity.mjs            # Node assertion that the browser scorer agrees
+└── web/                            # Vite + React site deployed to Vercel
 ```
 
 ## ⚙️ Methodology

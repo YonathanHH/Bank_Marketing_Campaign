@@ -1,0 +1,19 @@
+{
+ "age": 38.0,
+ "campaign": 2.0,
+ "previous": 0.0,
+ "cons.conf.idx": -41.8,
+ "euribor3m": 4.857,
+ "nr.employed": 5191.0,
+ "job": "admin",
+ "marital": "married",
+ "education": "university degree",
+ "housing": "yes",
+ "loan": "no",
+ "contact": "cellular",
+ "month": "may",
+ "day_of_week": "thu",
+ "poutcome": "nonexistent",
+ "is_default_status_known": "yes",
+ "was_contacted_before": "no"
+}
